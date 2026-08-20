@@ -1,0 +1,41 @@
+<main class="auth-page">
+    <section class="apresentacao">
+        <div class="conteudo"><a class="marca" routerLink="/login">ImpressArte<span>3D</span></a>
+            <div class="chamada"><span class="destaque">COMECE AGORA</span>
+                <h1>Sua produção.<br><strong>Sob controle.</strong></h1>
+                <p>Crie sua conta e organize toda a sua produção 3D.</p>
+            </div>
+        </div>
+    </section>
+    <section class="area-formulario">
+        <div class="formulario card border-0 shadow-sm p-4 p-lg-5 rounded-4">
+            <header><span class="boas-vindas">CRIE SUA CONTA</span>
+                <h2>Cadastre-se</h2>
+                <p>Precisamos apenas do seu nome, e-mail e senha.</p>
+            </header>
+            <form class="mt-4" #form="ngForm" (ngSubmit)="cadastrar(form)" novalidate>
+                <div class="campo mb-3"><label class="form-label" for="nome">Nome</label>
+                    <div class="entrada input-group"><span>👤</span><input class="form-control border-0" id="nome" name="nome" placeholder="Digite seu nome"
+                            [(ngModel)]="nome" #n="ngModel" required minlength="2"></div>
+                    @if(n.invalid&&(n.touched||enviado())){<small class="erro">Informe seu nome.</small>}
+                </div>
+                <div class="campo mb-3"><label class="form-label" for="email">E-mail</label>
+                    <div class="entrada input-group"><span>✉</span><input class="form-control border-0" id="email" name="email" type="email"
+                            placeholder="voce@suaempresa.com" [(ngModel)]="email" #e="ngModel" required email></div>
+                    @if(e.invalid&&(e.touched||enviado())){<small class="erro">Informe um e-mail válido.</small>}
+                </div>
+                <div class="campo mb-3"><label class="form-label" for="senha">Senha</label>
+                    <div class="entrada input-group"><span>🔒</span><input class="form-control border-0" id="senha" name="senha"
+                            [type]="mostrarSenha()?'text':'password'" placeholder="Mínimo de 6 caracteres"
+                            [(ngModel)]="senha" #s="ngModel" required minlength="6"><button class="olho" type="button"
+                            (click)="mostrarSenha.set(!mostrarSenha())">👁</button></div>
+                    @if(s.invalid&&(s.touched||enviado())){<small class="erro">A senha deve ter pelo menos 6
+                        caracteres.</small>}
+                </div>
+                <button class="entrar btn btn-primary w-100" type="submit" [disabled]="carregando()">{{carregando()?'Cadastrando...':'Criar
+                    minha conta'}}</button><a class="voltar btn btn-link" routerLink="/login">Já tenho uma conta</a>@if(mensagem()){
+                <p class="mensagem alert alert-danger mb-0">{{mensagem()}}</p>}
+            </form>
+        </div>
+    </section>
+</main>

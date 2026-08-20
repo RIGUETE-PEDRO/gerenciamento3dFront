@@ -1,0 +1,13 @@
+<main class="painel">
+  <aside>
+    <h1>ImpressArte<span>3D</span></h1>
+    <nav class="nav nav-pills flex-column gap-2">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="ativo active" [routerLinkActiveOptions]="{ exact: true }">Visão geral</a>
+      <a class="nav-link" routerLink="/pedidos" routerLinkActive="ativo active">Pedidos</a>
+      <a class="nav-link" routerLink="/Equipamentos" routerLinkActive="ativo active">Equipamentos</a>
+      <a class="nav-link" routerLink="/materiais" routerLinkActive="ativo active">Materiais</a>
+    </nav>
+    <a class="sair btn btn-outline-light" routerLink="/login">Sair</a>
+  </aside>
+  <section class="pagina"><router-outlet></router-outlet></section>
+</main>
