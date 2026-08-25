@@ -1,0 +1,35 @@
+<div class="confirmacao-fundo" (click)="cancelarModal()">
+  <section
+    class="confirmacao-modal"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="confirmacao-titulo"
+    aria-describedby="confirmacao-mensagem"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="confirmacao-icone" aria-hidden="true">!</div>
+
+    <h2 id="confirmacao-titulo">{{ titulo() }}</h2>
+    <p id="confirmacao-mensagem">{{ mensagem() }}</p>
+
+    <footer class="confirmacao-acoes">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        [disabled]="processando()"
+        (click)="cancelarModal()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-danger"
+        [disabled]="processando()"
+        (click)="confirmar.emit()"
+      >
+        {{ processando() ? 'Excluindo...' : textoConfirmar() }}
+      </button>
+    </footer>
+  </section>
+</div>

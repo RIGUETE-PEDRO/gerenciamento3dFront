@@ -1,0 +1,143 @@
+<div class="modal-fundo modal-backdrop-custom" (click)="fechar.emit()">
+  <section
+    class="modal-material"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-modal"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="modal-content border-0 shadow-lg rounded-4 p-4">
+      <header class="modal-cabecalho modal-header border-0 p-0 pb-3">
+        <div>
+          <small>{{ editando() ? 'EDITAR CADASTRO' : 'NOVO CADASTRO' }}</small>
+          <h2 id="titulo-modal">{{ editando() ? 'Editar material' : 'Adicionar material' }}</h2>
+        </div>
+        <button class="fechar" type="button" aria-label="Fechar" (click)="fechar.emit()">
+          &times;
+        </button>
+      </header>
+
+      <form class="modal-body p-0" #materialForm="ngForm" (ngSubmit)="salvar(materialForm)">
+        <div class="campo campo-largo">
+          <label class="form-label" for="nome">Nome</label>
+          <input
+            class="form-control"
+            id="nome"
+            name="nome"
+            type="text"
+            placeholder="Exemplo: PLA Premium"
+            [(ngModel)]="material.nome"
+            required
+          />
+        </div>
+
+        <div class="linha-campos">
+          <div class="campo">
+            <label class="form-label" for="tipo">Tipo</label>
+            <select class="form-select" id="tipo" name="tipo" [(ngModel)]="material.tipo" required>
+              <option value="">Selecione</option>
+              <option value="PLA">PLA</option>
+              <option value="PETG">PETG</option>
+              <option value="ABS">ABS</option>
+              <option value="TPU">TPU</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="cor">Cor</label>
+            <input
+              class="form-control"
+              id="cor"
+              name="cor"
+              type="text"
+              placeholder="Exemplo: Preto"
+              [(ngModel)]="material.cor"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="linha-campos">
+          <div class="campo">
+            <label class="form-label" for="quantidade">Quantidade (g)</label>
+            <input
+              class="form-control"
+              id="quantidade"
+              name="quantidade"
+              type="number"
+              min="1"
+              [(ngModel)]="material.quantidade"
+              required
+            />
+          </div>
+          <div class="campo">
+            <label class="form-label" for="custo">Custo (R$)</label>
+            <input
+              class="form-control"
+              id="custo"
+              name="custo"
+              type="number"
+              min="0.01"
+              step="0.01"
+              [(ngModel)]="material.custo"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="linha-campos">
+          <div class="campo">
+            <label class="form-label" for="dataCompra">Data da compra</label>
+            <input
+              class="form-control"
+              id="dataCompra"
+              name="dataCompra"
+              type="date"
+              [(ngModel)]="material.dataCompra"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="lojaId">Loja</label>
+            <select
+              class="form-select"
+              id="lojaId"
+              name="lojaId"
+              [(ngModel)]="material.lojaId"
+              [disabled]="carregandoLojas()"
+              required
+            >
+              <option [ngValue]="null">
+                {{ carregandoLojas() ? 'Carregando lojas...' : 'Selecione' }}
+              </option>
+              @for (loja of lojas(); track loja.id) {
+                <option [ngValue]="loja.id">{{ loja.nome }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <footer class="modal-acoes modal-footer border-0 px-0 pb-0">
+          <button type="button" class="cancelar btn btn-outline-secondary" (click)="fechar.emit()">
+            Cancelar
+          </button>
+          <button type="submit" class="salvar btn btn-primary" [disabled]="salvando()">
+            {{ salvando() ? 'Salvando...' : editando() ? 'Atualizar material' : 'Salvar material' }}
+          </button>
+        </footer>
+
+        @if (mensagem()) {
+          <div
+            class="alert mb-0 mt-3"
+            [class.alert-success]="sucesso()"
+            [class.alert-danger]="!sucesso()"
+            role="status"
+          >
+            {{ mensagem() }}
+          </div>
+        }
+      </form>
+    </div>
+  </section>
+</div>

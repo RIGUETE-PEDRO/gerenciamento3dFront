@@ -1,0 +1,86 @@
+<header>
+  <small>MÓDULO DE MATERIAIS</small>
+  <h2>Materiais</h2>
+  <p>Controle filamentos, resinas, cores, quantidades e custos.</p>
+</header>
+
+<section class="barra">
+  <input class="form-control" type="search" placeholder="Buscar material" />
+  <button class="btn btn-primary" type="button" (click)="abrirModal()">+ Novo material</button>
+</section>
+
+<section class="tabela card shadow-sm border-0">
+  <div class="cabecalho">
+    <span>Material</span>
+    <span>Tipo</span>
+    <span>Cor</span>
+    <span>Estoque</span>
+    <span>Custo</span>
+    <span>Compra</span>
+    <span>Loja</span>
+    <span>Ações</span>
+  </div>
+
+  @if (carregando()) {
+    <div class="vazio">
+      <p>Carregando materiais...</p>
+    </div>
+  } @else if (mensagemErro()) {
+    <div class="vazio">
+      <strong>{{ mensagemErro() }}</strong>
+    </div>
+  } @else {
+    @for (material of materiais(); track material.id) {
+      <div class="linha">
+        <span>{{ material.nome }}</span>
+        <span>{{ material.tipo }}</span>
+        <span>{{ material.cor }}</span>
+        <span>{{ material.quantidade }} g</span>
+        <span>R$ {{ material.custo.toFixed(2) }}</span>
+        <span>{{ material.dataCompra }}</span>
+        <span>{{ lojasPorId().get(material.lojaId) ?? 'Loja não encontrada' }}</span>
+        <div class="acoes">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            (click)="editarMaterial(material)"
+          >
+            Editar
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="pedirExclusao(material)"
+          >
+            Excluir
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="vazio">
+        <strong>Nenhum material cadastrado</strong>
+        <p>Cadastre seus insumos para começar o controle de estoque.</p>
+      </div>
+    }
+  }
+</section>
+
+@if (modalAberto()) {
+  @if (materialSelecionado(); as material) {
+    <app-material-edit [material]="material" (fechar)="fecharModal()" (salvo)="materialSalvo()" />
+  } @else {
+    <app-material-create (fechar)="fecharModal()" (salvo)="materialSalvo()" />
+  }
+}
+
+@if (materialParaExcluir(); as material) {
+  <app-confirm-modal
+    titulo="Excluir material"
+    [mensagem]="'Deseja realmente excluir o material &quot;' + material.nome + '&quot;?'"
+    textoConfirmar="Excluir"
+    [processando]="excluindo()"
+    (cancelar)="cancelarExclusao()"
+    (confirmar)="confirmarExclusao()"
+  />
+}

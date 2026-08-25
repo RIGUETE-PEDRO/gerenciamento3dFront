@@ -1,22 +1,26 @@
 import { Routes } from '@angular/router';
-import { Cadastro } from './cadastro/cadastro';
-import { Dashboard } from './dashboard/dashboard';
-import { Login } from './login/login';
+import { CadastroComponent } from './cadastro/cadastro.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
-import { Materiais } from './materiais/materiais';
-import { PainelLayout } from './painel-layout/painel-layout';
-import { Pedidos } from './pedidos/pedidos';
-import { Equipamentos } from './Equipamento/Equipamento';
+import { MaterialViewComponent } from './materiais/view/material-view.component';
+import { PainelLayoutComponent } from './painel-layout/painel-layout.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
+import { EquipamentosComponent } from './equipamentos/equipamentos.component';
 
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'cadastro', component: Cadastro },
-  { path: '', component: PainelLayout, children: [
-    { path: 'dashboard', component: Dashboard },
-    { path: 'pedidos', component: Pedidos },
-    { path: 'Equipamentos', component: Equipamentos },
-    { path: 'materiais', component: Materiais }
-  ] },
+  { path: 'login', component: LoginComponent },
+  { path: 'cadastro', component: CadastroComponent },
+  {
+    path: '',
+    component: PainelLayoutComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'pedidos', component: PedidosComponent },
+      { path: 'equipamentos', component: EquipamentosComponent },
+      { path: 'materiais', component: MaterialViewComponent },
+    ],
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];

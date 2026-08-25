@@ -1,0 +1,67 @@
+.cabecalho,
+.linha {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(6, 1fr) 1.7fr;
+  gap: 15px;
+  align-items: center;
+}
+
+.linha {
+  padding: 18px 20px;
+  border-top: 1px solid #eef1ef;
+}
+
+.linha span:first-child {
+  font-weight: 700;
+}
+
+.acoes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 650px) {
+  .linha {
+    grid-template-columns: 1fr;
+  }
+
+  .linha span::before {
+    display: inline-block;
+    min-width: 80px;
+    margin-right: 8px;
+    color: #697572;
+    font-weight: 700;
+  }
+
+  .linha span:nth-child(1)::before {
+    content: 'Material:';
+  }
+  .linha span:nth-child(2)::before {
+    content: 'Tipo:';
+  }
+  .linha span:nth-child(3)::before {
+    content: 'Cor:';
+  }
+  .linha span:nth-child(4)::before {
+    content: 'Estoque:';
+  }
+  .linha span:nth-child(5)::before {
+    content: 'Custo:';
+  }
+  .linha span:nth-child(6)::before {
+    content: 'Compra:';
+  }
+  .linha span:nth-child(7)::before {
+    content: 'Loja:';
+  }
+
+  .acoes::before {
+    display: inline-block;
+    min-width: 80px;
+    margin-right: 8px;
+    content: 'Ações:';
+    color: #697572;
+    font-weight: 700;
+  }
+}

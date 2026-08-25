@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.painel {
+  min-height: 100dvh;
+  background: #f6f5f1;
+}
+
+aside {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 100dvh;
+  padding: 30px 22px;
+  color: #fff;
+  background: linear-gradient(180deg, #405de6, #833ab4 45%, #c13584);
+}
+
+h1 {
+  margin: 0 10px 45px;
+  font-size: 21px;
+}
+
+h1 span {
+  color: #ffe194;
+}
+
+nav {
+  display: grid;
+  gap: 8px;
+}
+
+nav a,
+.sair {
+  padding: 13px 15px;
+  border-radius: 9px;
+  color: #ffffffc9;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav a.ativo,
+nav a:hover {
+  color: #fff;
+  background: #ffffff24;
+}
+
+.sair {
+  margin-top: auto;
+}
+
+.pagina {
+  min-width: 0;
+  min-height: 100dvh;
+  margin-left: 240px;
+  padding: 48px clamp(24px, 5vw, 72px);
+}
+
+@media (max-width: 750px) {
+  aside {
+    position: sticky;
+    width: 100%;
+    height: auto;
+    padding: 18px;
+  }
+
+  aside h1 {
+    margin: 0 0 16px;
+  }
+
+  nav {
+    grid-template-columns: repeat(4, 1fr);
+    overflow: auto;
+  }
+
+  nav a {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .sair {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+  }
+
+  .pagina {
+    margin-left: 0;
+    padding: 30px 20px;
+  }
+}

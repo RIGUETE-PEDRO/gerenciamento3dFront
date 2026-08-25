@@ -1,0 +1,113 @@
+<main class="auth-page">
+  <section class="apresentacao">
+    <div class="conteudo">
+      <a class="marca" routerLink="/login"
+        ><span class="simbolo"
+          ><svg viewBox="0 0 48 48">
+            <path d="M24 5 40 14 24 23 8 14 24 5Z" />
+            <path d="m8 22 16 9 16-9M8 30l16 9 16-9" /></svg></span
+        >ImpressArte<span>3D</span></a
+      >
+      <div class="chamada">
+        <span class="destaque">GESTÃO PARA IMPRESSÃO 3D</span>
+        <h1>Sua produção.<br /><strong>Sob controle.</strong></h1>
+        <p>Acompanhe pedidos, materiais, máquinas e resultados em um único lugar.</p>
+        <div class="beneficios">
+          <div>
+            <span>◫</span>
+            <p><b>Produção em tempo real</b><small>Status das suas Equipamentos</small></p>
+          </div>
+          <div>
+            <span>▣</span>
+            <p><b>Pedidos organizados</b><small>Do orçamento à entrega</small></p>
+          </div>
+          <div>
+            <span>↗</span>
+            <p><b>Custos e resultados</b><small>Decisões com dados reais</small></p>
+          </div>
+        </div>
+      </div>
+      <small class="rodape-marca">FEITO PARA QUEM TRANSFORMA IDEIAS EM OBJETOS.</small>
+    </div>
+  </section>
+  <section class="area-formulario">
+    <div class="formulario card border-0 shadow-sm p-4 p-lg-5 rounded-4">
+      <header>
+        <span class="boas-vindas">BEM-VINDO DE VOLTA</span>
+        <h2>Acesse sua conta</h2>
+        <p>Entre com seus dados para continuar gerenciando sua produção.</p>
+      </header>
+      <form class="mt-4" #loginForm="ngForm" (ngSubmit)="entrar(loginForm)" novalidate>
+        <div class="campo mb-3">
+          <label class="form-label" for="email">E-mail</label>
+          <div class="entrada input-group" [class.invalido]="emailInput.invalid && enviado()">
+            <span>✉</span
+            ><input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="voce@suaempresa.com"
+              class="form-control border-0"
+              autocomplete="email"
+              [(ngModel)]="email"
+              #emailInput="ngModel"
+              required
+              email
+            />
+          </div>
+          @if (emailInput.invalid && enviado()) {
+            <small class="erro">Informe um e-mail válido.</small>
+          }
+        </div>
+        <div class="campo mb-3">
+          <div class="linha-label">
+            <label for="senha">Senha</label
+            ><button type="button" class="link">Esqueceu a senha?</button>
+          </div>
+          <div class="entrada" [class.invalido]="senhaInput.invalid && enviado()">
+            <span>🔒</span
+            ><input
+              class="form-control border-0"
+              id="senha"
+              name="senha"
+              [type]="mostrarSenha() ? 'text' : 'password'"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              [(ngModel)]="senha"
+              #senhaInput="ngModel"
+              required
+              minlength="6"
+            /><button type="button" class="olho" (click)="mostrarSenha.set(!mostrarSenha())">
+              👁
+            </button>
+          </div>
+          @if (senhaInput.invalid && enviado()) {
+            <small class="erro">A senha deve ter pelo menos 6 caracteres.</small>
+          }
+        </div>
+        <label class="lembrar form-check"
+          ><input class="form-check-input" type="checkbox" name="lembrar" [(ngModel)]="lembrar" />
+          Manter conectado</label
+        >
+        <a class="cadastre-se btn btn-outline-primary w-100" routerLink="/cadastro">Cadastre-se</a>
+        <button class="entrar btn btn-primary w-100" type="submit" [disabled]="carregando()">
+          {{
+            carregando()
+              ? 'Entrando...'
+              : 'Entrar no
+          sistema'
+          }}
+          @if (!carregando()) {
+            <b>→</b>
+          }
+        </button>
+        @if (mensagem()) {
+          <p class="mensagem alert alert-danger mb-0" role="alert">{{ mensagem() }}</p>
+        }
+      </form>
+      <p class="suporte">
+        Precisa de ajuda? <a href="mailto:suporte@layer3d.com.br">Fale com o suporte</a>
+      </p>
+    </div>
+  </section>
+</main>
