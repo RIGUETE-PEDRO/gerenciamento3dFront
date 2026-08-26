@@ -1,21 +1,55 @@
 <header>
   <small>MÓDULO DE PEDIDOS</small>
   <h2>Pedidos</h2>
-  <p>Organize seus trabalhos do orçamento até a entrega.</p>
+  <p>Organize os produtos que entram nos pedidos de impressão 3D.</p>
 </header>
+
 <section class="barra">
-  <input class="form-control" type="search" placeholder="Buscar pedido ou cliente" /><button
-    class="btn btn-primary"
-  >
-    + Novo pedido
-  </button>
+  <input class="form-control" type="search" placeholder="Buscar produto" />
+  <button class="btn btn-primary" type="button" (click)="abrirModal()">+ Novo produto</button>
 </section>
-<section class="tabela card shadow-sm border-0">
+
+<section class="tabela tabela-produtos card shadow-sm border-0">
   <div class="cabecalho">
-    <span>Pedido</span><span>Cliente</span><span>Status</span><span>Valor</span>
+    <span>Produto</span>
+    <span>Categoria</span>
+    <span>Material</span>
+    <span>Cor</span>
+    <span>Qtd.</span>
+    <span>Valor un.</span>
+    <span>Prazo</span>
+    <span>Descrição</span>
   </div>
-  <div class="vazio">
-    <strong>Nenhum pedido cadastrado</strong>
-    <p>Quando você adicionar um pedido, ele aparecerá aqui.</p>
-  </div>
+
+  @if (carregando()) {
+    <div class="vazio">
+      <p>Carregando produtos...</p>
+    </div>
+  } @else if (mensagemErro()) {
+    <div class="vazio">
+      <strong>{{ mensagemErro() }}</strong>
+    </div>
+  } @else {
+    @for (produto of produtos(); track produto.id) {
+      <div class="linha">
+        <span>{{ produto.nome }}</span>
+        <span>{{ produto.categoria }}</span>
+        <span>{{ produto.material }}</span>
+        <span>{{ produto.cor }}</span>
+        <span>{{ produto.quantidade }}</span>
+        <span>{{ formatarMoeda(produto.valorUnitario) }}</span>
+        <span>{{ produto.prazoProducao }} dias</span>
+        <span>{{ produto.descricao || 'Sem descrição' }}</span>
+      </div>
+    } @empty {
+      <div class="vazio">
+        <strong>Nenhum produto cadastrado</strong>
+        <p>Quando você adicionar um produto, ele aparecerá aqui.</p>
+      </div>
+    }
+  }
 </section>
+
+@if (modalAberto()) {
+  <app-pedido-form (fechar)="fecharModal()" (salvo)="produtoSalvo()" />
+}

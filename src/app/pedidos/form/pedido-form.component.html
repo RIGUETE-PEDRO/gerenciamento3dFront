@@ -1,6 +1,6 @@
 <div class="modal-fundo modal-backdrop-custom" (click)="fechar.emit()">
   <section
-    class="modal-material"
+    class="modal-produto"
     role="dialog"
     aria-modal="true"
     aria-labelledby="titulo-modal"
@@ -10,39 +10,67 @@
       <header class="modal-cabecalho modal-header border-0 p-0 pb-3">
         <div>
           <small>{{ editando() ? 'EDITAR CADASTRO' : 'NOVO CADASTRO' }}</small>
-          <h2 id="titulo-modal">{{ editando() ? 'Editar material' : 'Adicionar material' }}</h2>
+          <h2 id="titulo-modal">{{ editando() ? 'Editar produto' : 'Adicionar produto' }}</h2>
         </div>
         <button class="fechar" type="button" aria-label="Fechar" (click)="fechar.emit()">
           &times;
         </button>
       </header>
 
-      <form class="modal-body p-0" #materialForm="ngForm" (ngSubmit)="salvar(materialForm)">
+      <form class="modal-body p-0" #produtoForm="ngForm" (ngSubmit)="salvar(produtoForm)">
         <div class="campo campo-largo">
-          <label class="form-label" for="nome">Nome</label>
+          <label class="form-label" for="nome">Nome do produto</label>
           <input
             class="form-control"
             id="nome"
             name="nome"
             type="text"
-            placeholder="Exemplo: PLA Premium"
-            [(ngModel)]="material.nome"
+            placeholder="Exemplo: Suporte para headset"
+            [(ngModel)]="produto.nome"
             required
           />
         </div>
 
         <div class="linha-campos">
           <div class="campo">
-            <label class="form-label" for="tipo">Tipo</label>
-            <select class="form-select" id="tipo" name="tipo" [(ngModel)]="material.tipo" required>
+            <label class="form-label" for="categoria">Categoria</label>
+            <select
+              class="form-select"
+              id="categoria"
+              name="categoria"
+              [(ngModel)]="produto.categoria"
+              required
+            >
+              <option value="">Selecione</option>
+              <option value="Peca tecnica">Peça técnica</option>
+              <option value="Decoracao">Decoração</option>
+              <option value="Miniatura">Miniatura</option>
+              <option value="Prototipo">Protótipo</option>
+              <option value="Reposicao">Reposição</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="material">Material</label>
+            <select
+              class="form-select"
+              id="material"
+              name="material"
+              [(ngModel)]="produto.material"
+              required
+            >
               <option value="">Selecione</option>
               <option value="PLA">PLA</option>
               <option value="PETG">PETG</option>
               <option value="ABS">ABS</option>
               <option value="TPU">TPU</option>
+              <option value="Resina">Resina</option>
             </select>
           </div>
+        </div>
 
+        <div class="linha-campos">
           <div class="campo">
             <label class="form-label" for="cor">Cor</label>
             <input
@@ -50,36 +78,21 @@
               id="cor"
               name="cor"
               type="text"
-              placeholder="Exemplo: Preto"
-              [(ngModel)]="material.cor"
+              placeholder="Exemplo: Preto fosco"
+              [(ngModel)]="produto.cor"
               required
             />
           </div>
-        </div>
 
-        <div class="linha-campos">
           <div class="campo">
-            <label class="form-label" for="quantidade">Quantidade (g)</label>
+            <label class="form-label" for="quantidade">Quantidade</label>
             <input
               class="form-control"
               id="quantidade"
               name="quantidade"
               type="number"
               min="1"
-              [(ngModel)]="material.quantidade"
-              required
-            />
-          </div>
-          <div class="campo">
-            <label class="form-label" for="custo">Custo (R$)</label>
-            <input
-              class="form-control"
-              id="custo"
-              name="custo"
-              type="number"
-              min="0.01"
-              step="0.01"
-              [(ngModel)]="material.custo"
+              [(ngModel)]="produto.quantidade"
               required
             />
           </div>
@@ -87,35 +100,42 @@
 
         <div class="linha-campos">
           <div class="campo">
-            <label class="form-label" for="dataCompra">Data da compra</label>
+            <label class="form-label" for="valorUnitario">Valor unitário (R$)</label>
             <input
               class="form-control"
-              id="dataCompra"
-              name="dataCompra"
-              type="date"
-              [(ngModel)]="material.dataCompra"
+              id="valorUnitario"
+              name="valorUnitario"
+              type="number"
+              min="0.01"
+              step="0.01"
+              [(ngModel)]="produto.valorUnitario"
               required
             />
           </div>
-
           <div class="campo">
-            <label class="form-label" for="lojaId">Loja</label>
-            <select
-              class="form-select"
-              id="lojaId"
-              name="lojaId"
-              [(ngModel)]="material.lojaId"
-              [disabled]="carregandoLojas()"
+            <label class="form-label" for="prazoProducao">Prazo de produção (dias)</label>
+            <input
+              class="form-control"
+              id="prazoProducao"
+              name="prazoProducao"
+              type="number"
+              min="1"
+              [(ngModel)]="produto.prazoProducao"
               required
-            >
-              <option [ngValue]="null">
-                {{ carregandoLojas() ? 'Carregando lojas...' : 'Selecione' }}
-              </option>
-              @for (loja of lojas(); track loja.id) {
-                <option [ngValue]="loja.id">{{ loja.nome }}</option>
-              }
-            </select>
+            />
           </div>
+        </div>
+
+        <div class="campo campo-largo">
+          <label class="form-label" for="descricao">Descrição</label>
+          <textarea
+            class="form-control"
+            id="descricao"
+            name="descricao"
+            rows="4"
+            placeholder="Detalhes do produto, medidas, acabamento ou observações"
+            [(ngModel)]="produto.descricao"
+          ></textarea>
         </div>
 
         <footer class="modal-acoes modal-footer border-0 px-0 pb-0">
@@ -123,7 +143,7 @@
             Cancelar
           </button>
           <button type="submit" class="salvar btn btn-primary" [disabled]="salvando()">
-            {{ salvando() ? 'Salvando...' : editando() ? 'Atualizar material' : 'Salvar material' }}
+            {{ salvando() ? 'Salvando...' : editando() ? 'Atualizar produto' : 'Salvar produto' }}
           </button>
         </footer>
 

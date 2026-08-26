@@ -11,7 +11,7 @@
   opacity: 1;
 }
 
-.modal-material {
+.modal-produto {
   position: relative;
   display: block;
   width: min(100%, 680px);
@@ -22,7 +22,7 @@
   opacity: 1;
 }
 
-.modal-material .modal-content {
+.modal-produto .modal-content {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -62,13 +62,13 @@
   opacity: 0.7;
 }
 
-.modal-material form,
+.modal-produto form,
 .campo {
   display: grid;
   gap: 8px;
 }
 
-.modal-material form {
+.modal-produto form {
   gap: 16px;
   overflow-y: auto;
   padding-right: 4px !important;
@@ -80,9 +80,9 @@
 }
 
 .campo input,
-.campo select {
+.campo select,
+.campo textarea {
   width: 100%;
-  height: 48px;
   padding: 0 13px;
   border: 1px solid #d9dfdc;
   border-radius: 9px;
@@ -91,8 +91,20 @@
   font: inherit;
 }
 
+.campo input,
+.campo select {
+  height: 48px;
+}
+
+.campo textarea {
+  min-height: 104px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
 .campo input:focus,
-.campo select:focus {
+.campo select:focus,
+.campo textarea:focus {
   border-color: #c13584;
   box-shadow: 0 0 0 3px rgba(193, 53, 132, 0.1);
 }
@@ -137,12 +149,12 @@
     padding: 12px;
   }
 
-  .modal-material {
+  .modal-produto {
     width: 100%;
     max-height: calc(100vh - 24px);
   }
 
-  .modal-material .modal-content {
+  .modal-produto .modal-content {
     max-height: calc(100vh - 24px);
     padding: 20px !important;
   }

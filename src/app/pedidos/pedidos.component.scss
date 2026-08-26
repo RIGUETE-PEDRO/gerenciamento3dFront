@@ -1,0 +1,73 @@
+.cabecalho,
+.linha {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.9fr 0.9fr 0.6fr 0.9fr 0.8fr 1.5fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.linha {
+  padding: 18px 20px;
+  border-top: 1px solid #eef1ef;
+}
+
+.cabecalho span,
+.linha span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.linha span:first-child {
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .cabecalho {
+    display: none;
+  }
+
+  .linha {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .linha span::before {
+    display: inline-block;
+    min-width: 110px;
+    margin-right: 8px;
+    color: #697572;
+    font-weight: 700;
+  }
+
+  .linha span:nth-child(1)::before {
+    content: 'Produto:';
+  }
+
+  .linha span:nth-child(2)::before {
+    content: 'Categoria:';
+  }
+
+  .linha span:nth-child(3)::before {
+    content: 'Material:';
+  }
+
+  .linha span:nth-child(4)::before {
+    content: 'Cor:';
+  }
+
+  .linha span:nth-child(5)::before {
+    content: 'Qtd.:';
+  }
+
+  .linha span:nth-child(6)::before {
+    content: 'Valor un.:';
+  }
+
+  .linha span:nth-child(7)::before {
+    content: 'Prazo:';
+  }
+
+  .linha span:nth-child(8)::before {
+    content: 'Descricao:';
+  }
+}
