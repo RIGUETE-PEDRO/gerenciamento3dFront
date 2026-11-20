@@ -91,12 +91,7 @@
         >
         <a class="cadastre-se btn btn-outline-primary w-100" routerLink="/cadastro">Cadastre-se</a>
         <button class="entrar btn btn-primary w-100" type="submit" [disabled]="carregando()">
-          {{
-            carregando()
-              ? 'Entrando...'
-              : 'Entrar no
-          sistema'
-          }}
+          {{ carregando() ? 'Entrando...' : 'Entrar no sistema' }}
           @if (!carregando()) {
             <b>→</b>
           }

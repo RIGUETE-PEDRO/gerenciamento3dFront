@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { PedidoFormComponent } from './form/pedido-form.component';
 import { Produto } from './models/produto.types';
 import { ProdutosService } from './service/pedido.service';
@@ -11,6 +12,7 @@ import { ProdutosService } from './service/pedido.service';
 })
 export class PedidosComponent implements OnInit {
   private readonly produtoService = inject(ProdutosService);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly modalAberto = signal(false);
   protected readonly produtos = signal<Produto[]>([]);
@@ -19,6 +21,9 @@ export class PedidosComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarProdutos();
+    if (this.route.snapshot.queryParamMap.get('novo') === 'true') {
+      this.abrirModal();
+    }
   }
 
   private carregarProdutos(): void {

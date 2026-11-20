@@ -1,22 +1,43 @@
 <header>
-  <small class="text-uppercase">Painel de controle</small>
-  <h2 class="display-6 fw-bold">Olá! Bem-vindo.</h2>
-  <p class="text-secondary">Acompanhe sua produção 3D em um só lugar.</p>
+  <span class="saudacao">Painel de controle</span>
+  <h1>Olá! Bem-vindo.</h1>
+  <p>Acompanhe sua produção 3D em um só lugar.</p>
 </header>
 <div class="cards">
   <article class="card shadow-sm border-0">
-    <span>Pedidos</span><strong>0</strong><small>Pedidos cadastrados</small>
+    <div class="card-info">
+      <span>Pedidos</span>
+      <strong>0</strong>
+      <small>Pedidos cadastrados</small>
+    </div>
+    <span class="card-icon">P</span>
   </article>
   <article class="card shadow-sm border-0">
-    <span>Em produção</span><strong>0</strong><small>Impressões em andamento</small>
+    <div class="card-info">
+      <span>Em produção</span>
+      <strong>0</strong>
+      <small>Impressões em andamento</small>
+    </div>
+    <span class="card-icon">IP</span>
   </article>
   <article class="card shadow-sm border-0">
-    <span>Equipamento</span><strong>0</strong><small>Equipamento cadastradas</small>
+    <div class="card-info">
+      <span>Equipamentos</span>
+      <strong>0</strong>
+      <small>Máquinas cadastradas</small>
+    </div>
+    <span class="card-icon">EQ</span>
   </article>
 </div>
 <section class="vazio card shadow-sm border-0">
-  <div>▣</div>
-  <h3>Sua produção começa aqui</h3>
-  <p>Cadastre seus pedidos e Equipamento para acompanhar tudo pelo painel.</p>
-  <button class="btn btn-primary">Adicionar primeiro pedido</button>
+  <div class="vazio-conteudo">
+    <span class="vazio-icon" aria-hidden="true">+</span>
+    <span class="saudacao">Comece aqui</span>
+    <h2>Sua produção começa agora</h2>
+    <p>Cadastre seu primeiro pedido e acompanhe todos os detalhes da produção.</p>
+    <button type="button" class="btn btn-primary" (click)="abrirCadastroPedido()">
+      Adicionar primeiro pedido
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
 </section>

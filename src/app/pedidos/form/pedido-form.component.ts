@@ -3,6 +3,8 @@ import { Component, computed, inject, input, OnInit, output, signal } from '@ang
 import { FormsModule, NgForm } from '@angular/forms';
 import { Produto, ProdutoCadastroRequest, ProdutoFormValue } from '../models/produto.types';
 import { ProdutosService } from '../service/pedido.service';
+import { Material } from '../../materiais/models/material.types';
+import { MaterialService } from '../../materiais/services/material.service';
 
 @Component({
   selector: 'app-pedido-form',
@@ -12,6 +14,7 @@ import { ProdutosService } from '../service/pedido.service';
 })
 export class PedidoFormComponent implements OnInit {
   private readonly produtoService = inject(ProdutosService);
+  private readonly materialService = inject(MaterialService);
 
   readonly produtoParaEditar = input<Produto | null>(null);
   readonly fechar = output<void>();
@@ -20,6 +23,8 @@ export class PedidoFormComponent implements OnInit {
   protected readonly salvando = signal(false);
   protected readonly mensagem = signal('');
   protected readonly sucesso = signal(false);
+  protected readonly materiais = signal<Material[]>([]);
+  protected readonly carregandoMateriais = signal(false);
 
   protected produto: ProdutoFormValue = {
     nome: '',
@@ -33,6 +38,7 @@ export class PedidoFormComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.carregarMateriais();
     const produtoParaEditar = this.produtoParaEditar();
     if (produtoParaEditar) {
       this.produto = {
@@ -46,6 +52,21 @@ export class PedidoFormComponent implements OnInit {
         descricao: produtoParaEditar.descricao,
       };
     }
+  }
+
+  private carregarMateriais(): void {
+    this.carregandoMateriais.set(true);
+    this.materialService.listar().subscribe({
+      next: (materiais) => {
+        this.materiais.set(materiais);
+        this.carregandoMateriais.set(false);
+      },
+      error: () => {
+        this.materiais.set([]);
+        this.carregandoMateriais.set(false);
+        this.mensagem.set('Não foi possível carregar os materiais cadastrados.');
+      },
+    });
   }
 
   protected salvar(form: NgForm): void {

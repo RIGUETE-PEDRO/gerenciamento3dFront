@@ -57,7 +57,7 @@
     </div>
   </section>
 
-  <div class="modal-fundo" [class.ativo]="modalAberto" (click)="fecharModal()">
+  <div class="modal-fundo" [class.ativo]="modalAberto">
       <section
         class="cadastro-modal"
         role="dialog"
@@ -105,9 +105,12 @@
             <small class="campo-erro">Informe o nome e a porcentagem.</small>
           }
 
-          <button type="submit" class="botao-salvar" [disabled]="salvando()">
-            {{ salvando() ? 'Salvando...' : 'Salvar' }}
-          </button>
+          <footer class="acoes-modal">
+            <button type="button" class="botao-cancelar" (click)="fecharModal()">Cancelar</button>
+            <button type="submit" class="botao-salvar" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </footer>
         </form>
       </section>
   </div>

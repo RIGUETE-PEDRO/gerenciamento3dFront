@@ -1,4 +1,4 @@
-<div class="modal-fundo modal-backdrop-custom" (click)="fechar.emit()">
+<div class="modal-fundo modal-backdrop-custom">
   <section
     class="modal-produto"
     role="dialog"
@@ -58,14 +58,17 @@
               id="material"
               name="material"
               [(ngModel)]="produto.material"
+              [disabled]="carregandoMateriais()"
               required
             >
-              <option value="">Selecione</option>
-              <option value="PLA">PLA</option>
-              <option value="PETG">PETG</option>
-              <option value="ABS">ABS</option>
-              <option value="TPU">TPU</option>
-              <option value="Resina">Resina</option>
+              <option value="">
+                {{ carregandoMateriais() ? 'Carregando materiais...' : 'Selecione um material' }}
+              </option>
+              @for (material of materiais(); track material.id) {
+                <option [value]="material.nome">
+                  {{ material.nome }} - {{ material.tipo }} - {{ material.cor }}
+                </option>
+              }
             </select>
           </div>
         </div>
