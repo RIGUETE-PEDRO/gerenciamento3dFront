@@ -1,0 +1,155 @@
+<main class="calcular-page">
+  <div class="calcular-shell">
+    <header class="calcular-topo">
+      <div>
+        <span class="etiqueta">CALCULADORA</span>
+        <h1>Simulação de valores</h1>
+      </div>
+    </header>
+
+    <div class="calcular-grid">
+      <section class="calculo-card">
+        <div class="card-cabecalho">
+          <span class="icone-calculo" aria-hidden="true">R$</span>
+          <div>
+            <span class="card-etiqueta">Valor base</span>
+            <h2>Informe o valor</h2>
+          </div>
+        </div>
+
+        <form #form="ngForm" (ngSubmit)="enviar(form)">
+          <label for="valor">Valor</label>
+          <div class="campo-valor">
+            <span aria-hidden="true">R$</span>
+            <input
+              id="valor"
+              name="valor"
+              type="number"
+              step="any"
+              [(ngModel)]="valor"
+              required
+              placeholder="0,00"
+            />
+          </div>
+
+          @if (enviado() && (valor === null || valor === undefined)) {
+            <small class="campo-erro">Informe um valor para calcular.</small>
+          }
+
+          <button type="submit" class="botao-calcular" [disabled]="carregando()">
+            @if (carregando()) {
+              <span class="carregando-spinner" aria-hidden="true"></span>
+              Calculando
+            } @else {
+              Calcular resultado
+              <span aria-hidden="true">→</span>
+            }
+          </button>
+        </form>
+
+        @if (mensagem()) {
+          <p class="mensagem" role="alert">{{ mensagem() }}</p>
+        }
+      </section>
+
+      <section class="resultado-card" aria-live="polite">
+        <header class="resultado-cabecalho">
+          <div>
+            <span class="card-etiqueta claro">Resultado</span>
+            <h2>Valores calculados</h2>
+          </div>
+          @if (resultados().length > 0) {
+            <span class="contador">{{ resultados().length }} resultado(s)</span>
+          }
+        </header>
+
+        @if (resultados().length > 0) {
+          <div class="tabela-resultados">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (resultado of resultados(); track $index) {
+                  <tr>
+                    <td>
+                      <span class="indicador"></span>
+                      {{ nomeDoResultado(resultado) }}
+                    </td>
+                    <td class="valor-resultado">
+                      {{ formatarResultado(valorDoResultado(resultado)) }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="estado-resultado">
+            <span class="estado-icone" aria-hidden="true">R$</span>
+            <strong>Aguardando cálculo</strong>
+            <p>Digite um valor e selecione calcular.</p>
+          </div>
+        }
+      </section>
+    </div>
+  </div>
+
+  @if (cadastroAberto()) {
+    <div class="modal-fundo" (click)="fecharCadastro()">
+      <section
+        class="modal-cadastro"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-cadastro"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="titulo-linha">
+          <h2 id="titulo-cadastro">Novo cadastro</h2>
+          <button type="button" class="botao-fechar" (click)="fecharCadastro()"
+            aria-label="Fechar">x</button>
+        </div>
+
+        <form #cadastroForm="ngForm" (ngSubmit)="cadastrar(cadastroForm)">
+          <label for="nome">Nome</label>
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            [(ngModel)]="nome"
+            required
+            maxlength="100"
+            placeholder="Digite o nome"
+          />
+
+          <label for="porcentagem">Porcentagem</label>
+          <input
+            id="porcentagem"
+            name="porcentagem"
+            type="number"
+            step="any"
+            [(ngModel)]="porcentagem"
+            required
+            placeholder="Ex: 10"
+          />
+
+          @if (cadastroEnviado() &&
+            (!nome.trim() || porcentagem === null || porcentagem === undefined)) {
+            <small class="campo-erro">Informe o nome e a porcentagem.</small>
+          }
+
+          <button type="submit" class="botao-calcular" [disabled]="cadastroCarregando()">
+            {{ cadastroCarregando() ? 'Cadastrando...' : 'Cadastrar' }}
+          </button>
+
+          @if (cadastroMensagem()) {
+            <p class="cadastro-mensagem" role="status">{{ cadastroMensagem() }}</p>
+          }
+        </form>
+      </section>
+    </div>
+  }
+</main>

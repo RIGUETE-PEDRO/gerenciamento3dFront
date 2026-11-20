@@ -8,6 +8,8 @@ import { PainelLayoutComponent } from './painel-layout/painel-layout.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { EquipamentosComponent } from './equipamentos/equipamentos.component';
 import { authGuard } from './core/guard/auth.guard';
+import { CalcularComponente } from './calcular.componente/calcular.componente';
+import { CadastrarRegrasComponente } from './cadastrar-regras.componente/cadastrar-regras.componente';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +24,8 @@ export const routes: Routes = [
       { path: 'pedidos', component: PedidosComponent },
       { path: 'equipamentos', component: EquipamentosComponent },
       { path: 'materiais', component: MaterialViewComponent },
+      { path: 'calcular', component: CalcularComponente },
+      { path: 'cadastrar-regras', component: CadastrarRegrasComponente },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

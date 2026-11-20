@@ -1,0 +1,114 @@
+<main class="regras-page">
+  <section class="regras-card">
+    <header class="regras-header">
+      <div>
+        <span class="subtitulo">Configuração</span>
+        <h1>Regras de porcentagem</h1>
+      </div>
+
+      <button type="button" class="botao-adicionar" (click)="abrirCadastro()">
+        <span aria-hidden="true">+</span>
+        Nova regra
+      </button>
+    </header>
+
+    @if (mensagem()) {
+      <p class="mensagem" role="status">{{ mensagem() }}</p>
+    }
+
+    <div class="tabela-container">
+      <table>
+        <thead>
+          <tr>
+            
+            <th>Nome</th>
+            <th>Porcentagem</th>
+            <th class="acoes-titulo">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (regra of regras(); track regra.id) {
+            <tr>
+              
+              <td>{{ regra.nome }}</td>
+              <td>{{ regra.porcentagem }}%</td>
+              <td class="acoes">
+                <button type="button" class="botao-editar" (click)="abrirEdicao(regra)">
+                  Alterar
+                </button>
+                <button type="button" class="botao-excluir" (click)="deletar(regra)">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            @if (!carregando()) {
+              <tr>
+                <td colspan="4" class="estado-vazio">Nenhuma regra cadastrada.</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+
+      @if (carregando()) {
+        <p class="estado-vazio">Carregando regras...</p>
+      }
+    </div>
+  </section>
+
+  <div class="modal-fundo" [class.ativo]="modalAberto" (click)="fecharModal()">
+      <section
+        class="cadastro-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-regra"
+        (click)="$event.stopPropagation()"
+      >
+        <header class="modal-header">
+          <h2 id="titulo-regra">{{ regraEditando ? 'Alterar regra' : 'Nova regra' }}</h2>
+          <button type="button" class="botao-fechar" (click)="fecharModal()" aria-label="Fechar">
+            x
+          </button>
+        </header>
+
+        <form #form="ngForm" (ngSubmit)="salvar(form)">
+          <label for="nome">Nome</label>
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            [(ngModel)]="nome"
+            required
+            maxlength="100"
+            placeholder="Digite o nome"
+          />
+
+          <label for="porcentagem">Porcentagem</label>
+          <div class="campo-percentual">
+            <input
+              id="porcentagem"
+              name="porcentagem"
+              type="number"
+              step="any"
+              [(ngModel)]="porcentagem"
+              required
+              placeholder="Ex: 10"
+            />
+            <span aria-hidden="true">%</span>
+          </div>
+
+          @if (
+            enviado() &&
+            (!nome.trim() || porcentagem === null || porcentagem === undefined)
+          ) {
+            <small class="campo-erro">Informe o nome e a porcentagem.</small>
+          }
+
+          <button type="submit" class="botao-salvar" [disabled]="salvando()">
+            {{ salvando() ? 'Salvando...' : 'Salvar' }}
+          </button>
+        </form>
+      </section>
+  </div>
+</main>
