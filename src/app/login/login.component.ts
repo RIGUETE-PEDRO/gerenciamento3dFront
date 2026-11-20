@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -12,6 +12,8 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class LoginComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   protected email = '';
   protected senha = '';
   protected lembrar = false;
@@ -30,7 +32,8 @@ export class LoginComponent {
     this.carregando.set(true);
     this.authService.login({ username: this.email, password: this.senha }).subscribe({
       next: () => {
-        window.location.assign('/dashboard');
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigateByUrl(returnUrl && returnUrl.startsWith('/') ? returnUrl : '/dashboard');
       },
       error: (erro: HttpErrorResponse) => {
         this.mensagem.set(

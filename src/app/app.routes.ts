@@ -7,6 +7,7 @@ import { MaterialViewComponent } from './materiais/view/material-view.component'
 import { PainelLayoutComponent } from './painel-layout/painel-layout.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { EquipamentosComponent } from './equipamentos/equipamentos.component';
+import { authGuard } from './core/guard/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +15,8 @@ export const routes: Routes = [
   {
     path: '',
     component: PainelLayoutComponent,
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'pedidos', component: PedidosComponent },

@@ -15,7 +15,7 @@
       >
       <a class="nav-link" routerLink="/materiais" routerLinkActive="ativo active">Materiais</a>
     </nav>
-    <a class="sair btn btn-outline-light" routerLink="/login">Sair</a>
+    <button type="button" class="sair btn btn-outline-light" (click)="sair()">Sair</button>
   </aside>
   <section class="pagina"><router-outlet></router-outlet></section>
 </main>
