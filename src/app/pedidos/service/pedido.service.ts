@@ -20,13 +20,13 @@ export class ProdutosService {
   }
 
   atualizar(id: number, produto: ProdutoCadastroRequest): Observable<string> {
-    return this.http.put(`${this.produtoUrl}/editar/${id}`, produto, {
+    return this.http.put(`${this.produtoUrl}/atualizar/${id}`, produto, {
       responseType: 'text',
     });
   }
 
   excluir(id: number): Observable<string> {
-    return this.http.delete(`${this.produtoUrl}/excluir/${id}`, {
+    return this.http.delete(`${this.produtoUrl}/deletar/${id}`, {
       responseType: 'text',
     });
   }

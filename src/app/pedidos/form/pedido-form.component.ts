@@ -60,6 +60,10 @@ export class PedidoFormComponent implements OnInit {
       next: (materiais) => {
         this.materiais.set(materiais);
         this.carregandoMateriais.set(false);
+
+        if (this.produto.material) {
+          this.materialSelecionado(this.produto.material);
+        }
       },
       error: () => {
         this.materiais.set([]);
@@ -67,6 +71,14 @@ export class PedidoFormComponent implements OnInit {
         this.mensagem.set('Não foi possível carregar os materiais cadastrados.');
       },
     });
+  }
+
+  protected materialSelecionado(nomeMaterial: string): void {
+    const material = this.materiais().find((item) => item.nome === nomeMaterial);
+    if (material) {
+      this.produto.cor = material.cor;
+      this.produto.material = material.nome;
+    }
   }
 
   protected salvar(form: NgForm): void {

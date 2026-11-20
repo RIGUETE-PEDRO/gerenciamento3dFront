@@ -37,7 +37,7 @@
         <span>{{ material.cor }}</span>
         <span>{{ material.quantidade }} g</span>
         <span>R$ {{ material.custo.toFixed(2) }}</span>
-        <span>{{ material.dataCompra }}</span>
+        <span>{{ converteData(material.dataCompra) }}</span>
         <span>{{ lojasPorId().get(material.lojaId) ?? 'Loja não encontrada' }}</span>
         <div class="acoes">
           <button

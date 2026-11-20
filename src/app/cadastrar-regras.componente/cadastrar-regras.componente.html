@@ -114,4 +114,14 @@
         </form>
       </section>
   </div>
+  @if (regraExcluindo()) {
+    <app-confirm-modal
+      titulo="Excluir regra"
+      [mensagem]="'Deseja excluir a regra &quot;' + regraExcluindo()!.nome + '&quot;? Esta ação não poderá ser desfeita.'"
+      textoConfirmar="Excluir regra"
+      [processando]="excluindo()"
+      (cancelar)="regraExcluindo.set(null)"
+      (confirmar)="confirmarExclusao()"
+    />
+  }
 </main>

@@ -2,10 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RegrasService, RegraPorcentagem } from './regras.service';
+import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-cadastrar-regras.componente',
-  imports: [FormsModule],
+  imports: [FormsModule, ConfirmModalComponent],
   templateUrl: './cadastrar-regras.componente.html',
   styleUrl: './cadastrar-regras.componente.scss',
 })
@@ -21,6 +22,8 @@ export class CadastrarRegrasComponente implements OnInit {
   protected nome = '';
   protected porcentagem: number | null = null;
   protected regraEditando: RegraPorcentagem | null = null;
+  protected readonly regraExcluindo = signal<RegraPorcentagem | null>(null);
+  protected readonly excluindo = signal(false);
 
   ngOnInit(): void {
     this.listar();
@@ -98,17 +101,24 @@ export class CadastrarRegrasComponente implements OnInit {
   }
 
   protected deletar(regra: RegraPorcentagem): void {
-    if (!window.confirm(`Deseja excluir a regra "${regra.nome}"?`)) {
-      return;
-    }
+    this.regraExcluindo.set(regra);
+  }
 
+  protected confirmarExclusao(): void {
+    const regra = this.regraExcluindo();
+    if (!regra) return;
+
+    this.excluindo.set(true);
     this.mensagem.set('');
     this.regrasService.deletar(regra.id).subscribe({
       next: () => {
+        this.excluindo.set(false);
+        this.regraExcluindo.set(null);
         this.regras.update((itens) => itens.filter((item) => item.id !== regra.id));
         this.mensagem.set('Regra excluída com sucesso.');
       },
       error: (erro: HttpErrorResponse) => {
+        this.excluindo.set(false);
         this.mensagem.set(this.mensagemErro(erro, 'Não foi possível excluir a regra.'));
       },
     });

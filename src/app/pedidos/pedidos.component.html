@@ -19,6 +19,7 @@
     <span>Valor un.</span>
     <span>Prazo</span>
     <span>Descrição</span>
+    <span class="acoes-titulo">Ações</span>
   </div>
 
   @if (carregando()) {
@@ -40,6 +41,14 @@
         <span>{{ formatarMoeda(produto.valorUnitario) }}</span>
         <span>{{ produto.prazoProducao }} dias</span>
         <span>{{ produto.descricao || 'Sem descrição' }}</span>
+        <span class="acoes-pedido">
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="abrirEdicao(produto)">
+            Alterar
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="excluir(produto)">
+            Excluir
+          </button>
+        </span>
       </div>
     } @empty {
       <div class="vazio">
@@ -51,5 +60,20 @@
 </section>
 
 @if (modalAberto()) {
-  <app-pedido-form (fechar)="fecharModal()" (salvo)="produtoSalvo()" />
+  <app-pedido-form
+    [produtoParaEditar]="produtoEditando()"
+    (fechar)="fecharModal()"
+    (salvo)="produtoSalvo()"
+  />
+}
+
+@if (produtoExcluindo()) {
+  <app-confirm-modal
+    titulo="Excluir pedido"
+    [mensagem]="'Deseja excluir o pedido &quot;' + produtoExcluindo()!.nome + '&quot;? Esta ação não poderá ser desfeita.'"
+    textoConfirmar="Excluir pedido"
+    [processando]="excluindo()"
+    (cancelar)="produtoExcluindo.set(null)"
+    (confirmar)="confirmarExclusao()"
+  />
 }

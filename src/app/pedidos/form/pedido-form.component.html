@@ -58,6 +58,7 @@
               id="material"
               name="material"
               [(ngModel)]="produto.material"
+              (ngModelChange)="materialSelecionado($event)"
               [disabled]="carregandoMateriais()"
               required
             >
@@ -75,19 +76,6 @@
 
         <div class="linha-campos">
           <div class="campo">
-            <label class="form-label" for="cor">Cor</label>
-            <input
-              class="form-control"
-              id="cor"
-              name="cor"
-              type="text"
-              placeholder="Exemplo: Preto fosco"
-              [(ngModel)]="produto.cor"
-              required
-            />
-          </div>
-
-          <div class="campo">
             <label class="form-label" for="quantidade">Quantidade</label>
             <input
               class="form-control"
@@ -96,6 +84,19 @@
               type="number"
               min="1"
               [(ngModel)]="produto.quantidade"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="prazoProducao">Prazo de produção (dias)</label>
+            <input
+              class="form-control"
+              id="prazoProducao"
+              name="prazoProducao"
+              type="number"
+              min="1"
+              [(ngModel)]="produto.prazoProducao"
               required
             />
           </div>
@@ -112,18 +113,6 @@
               min="0.01"
               step="0.01"
               [(ngModel)]="produto.valorUnitario"
-              required
-            />
-          </div>
-          <div class="campo">
-            <label class="form-label" for="prazoProducao">Prazo de produção (dias)</label>
-            <input
-              class="form-control"
-              id="prazoProducao"
-              name="prazoProducao"
-              type="number"
-              min="1"
-              [(ngModel)]="produto.prazoProducao"
               required
             />
           </div>

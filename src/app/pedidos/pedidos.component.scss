@@ -1,7 +1,7 @@
 .cabecalho,
 .linha {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 0.9fr 0.9fr 0.6fr 0.9fr 0.8fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr 0.9fr 0.9fr 0.6fr 0.9fr 0.8fr 1.5fr 1.1fr;
   gap: 14px;
   align-items: center;
 }
@@ -19,6 +19,16 @@
 
 .linha span:first-child {
   font-weight: 700;
+}
+
+.acoes-pedido {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.acoes-titulo {
+  text-align: center;
 }
 
 @media (max-width: 900px) {
@@ -69,5 +79,13 @@
 
   .linha span:nth-child(8)::before {
     content: 'Descricao:';
+  }
+
+  .linha span:nth-child(9)::before {
+    content: 'Ações:';
+  }
+
+  .acoes-pedido {
+    justify-content: flex-start;
   }
 }

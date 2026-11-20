@@ -29,6 +29,7 @@ export class MaterialViewComponent implements OnInit {
   ngOnInit(): void {
     this.carregarMateriais();
     this.carregarLojas();
+  
   }
 
   protected pedirExclusao(material: Material): void {
@@ -52,7 +53,7 @@ export class MaterialViewComponent implements OnInit {
       next: () => {
         this.excluindo.set(false);
         this.materialParaExcluir.set(null);
-        this.carregarMateriais();
+        this.materiais.update((itens) => itens.filter((item) => item.id !== material.id));
       },
       error: (erro) => {
         console.error('Erro ao excluir material:', erro);
@@ -68,6 +69,14 @@ export class MaterialViewComponent implements OnInit {
       next: (lojas) => this.lojas.set(lojas),
       error: (erro) => console.error('Erro ao buscar lojas:', erro),
     });
+  }
+
+  public converteData(data:string): string {
+    const dataObj = new Date(data);
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); 
+    const ano = dataObj.getFullYear();
+    return `${dia}/${mes}/${ano}`;
   }
 
   private carregarMateriais(): void {

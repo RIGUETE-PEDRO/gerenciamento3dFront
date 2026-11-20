@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { PedidoFormComponent } from './form/pedido-form.component';
 import { Produto } from './models/produto.types';
 import { ProdutosService } from './service/pedido.service';
+import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styleUrls: ['../dashboard/dashboard.component.scss', './pedidos.component.scss'],
-  imports: [PedidoFormComponent],
+  imports: [PedidoFormComponent, ConfirmModalComponent],
 })
 export class PedidosComponent implements OnInit {
   private readonly produtoService = inject(ProdutosService);
@@ -18,6 +19,9 @@ export class PedidosComponent implements OnInit {
   protected readonly produtos = signal<Produto[]>([]);
   protected readonly carregando = signal(false);
   protected readonly mensagemErro = signal('');
+  protected readonly produtoEditando = signal<Produto | null>(null);
+  protected readonly produtoExcluindo = signal<Produto | null>(null);
+  protected readonly excluindo = signal(false);
 
   ngOnInit(): void {
     this.carregarProdutos();
@@ -44,11 +48,18 @@ export class PedidosComponent implements OnInit {
   }
 
   protected abrirModal(): void {
+    this.produtoEditando.set(null);
+    this.modalAberto.set(true);
+  }
+
+  protected abrirEdicao(produto: Produto): void {
+    this.produtoEditando.set(produto);
     this.modalAberto.set(true);
   }
 
   protected fecharModal(): void {
     this.modalAberto.set(false);
+    this.produtoEditando.set(null);
   }
 
   protected produtoSalvo(): void {
@@ -60,6 +71,29 @@ export class PedidosComponent implements OnInit {
     return valor.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL',
+    });
+  }
+
+  protected excluir(produto: Produto): void {
+    this.produtoExcluindo.set(produto);
+  }
+
+  protected confirmarExclusao(): void {
+    const produto = this.produtoExcluindo();
+    if (!produto) return;
+
+    this.excluindo.set(true);
+    this.produtoService.excluir(produto.id).subscribe({
+      next: () => {
+        this.excluindo.set(false);
+        this.produtoExcluindo.set(null);
+        this.produtos.update((itens) => itens.filter((item) => item.id !== produto.id));
+      },
+      error: (erro) => {
+        this.excluindo.set(false);
+        console.error('Erro ao excluir pedido:', erro);
+        this.mensagemErro.set('Não foi possível excluir o pedido.');
+      },
     });
   }
 }

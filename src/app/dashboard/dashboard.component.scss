@@ -27,6 +27,8 @@ header p {
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: stretch;
   gap: 20px;
   margin-top: 32px;
 }
@@ -34,7 +36,7 @@ header p {
 .cards article {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   padding: 22px;
   border: 1px solid #e8ebf2;
@@ -46,6 +48,9 @@ header p {
 .card-info {
   display: grid;
   gap: 5px;
+  min-width: 0;
+  place-items: center;
+  text-align: center;
 }
 
 .cards span {
