@@ -1,11 +1,11 @@
 {
   "/api": {
-    "target": "http://host.docker.internal:8080",
+    "target": "http://host.docker.internal:8181",
     "secure": false,
     "changeOrigin": true
   },
   "/material": {
-    "target": "http://host.docker.internal:8080",
+    "target": "http://host.docker.internal:8181",
     "secure": false,
     "changeOrigin": true
   }
